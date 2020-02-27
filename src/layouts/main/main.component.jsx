@@ -35,6 +35,29 @@ export function Main(props) {
             employee={issue.fulfilling}
           />
         ))}
+        <div className="main__addTask">
+          <input
+            type="text"
+            className="main__addTask_name"
+            placeholder="Название"
+          />
+          <input
+            type="text"
+            className="main__addTask_description"
+            placeholder="Описание"
+          />
+          <input
+            type="text"
+            className="main__addTask_customer"
+            placeholder="Создатель"
+          />
+          <input
+            type="text"
+            className="main__addTask_fulfilling"
+            placeholder="Работник"
+          />
+          <button className="main__addTask_button">add</button>
+        </div>
       </div>
     </div>
   );
