@@ -4,13 +4,16 @@ import { MainRepository } from "../../layouts/main/main.repository";
 import "./new.style.sass";
 
 export function New(props) {
-  const { name, description, customer, fulfilling, id } = props;
+  const { name, id, description, customer, fulfilling } = props;
   const [isId, setIsId] = useState(false);
   const mainRepository = new MainRepository();
-  const [issue, setIssue] = React.useState([]);
+  const setId = { id };
+  const [issueId, setIssueId] = React.useState([]);
 
-  function handleClickGetId() {
+  function handleClickGetId(setId) {
     setIsId(!isId);
+    mainRepository.getIssueById(id).then(setIssueId);
+    console.log(issueId);
   }
 
   return (
@@ -20,9 +23,10 @@ export function New(props) {
           {name}
         </div>
       </div>
+
       {isId && (
         <div>
-          <div className="new__description">{description}</div>
+          <div className="new__description">{issueId.description}</div>
           <div className="new__footer">
             <div className="new__author">{customer}</div>
             <div className="new__employee">{fulfilling}</div>

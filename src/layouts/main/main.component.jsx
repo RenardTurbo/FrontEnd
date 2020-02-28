@@ -14,6 +14,7 @@ export function Main(props) {
     mainRepository.getIssue().then(setIssue);
   }, []);
   console.log(issue);
+
   return (
     <div className="main">
       <Header user={props.user} />
@@ -25,15 +26,8 @@ export function Main(props) {
             <div className="main__title_top">Задания </div>
           )}
         </div>
-        {issue.map((issue, index) => (
-          <New
-            key={index}
-            name={issue.name}
-            description={issue.description}
-            author={issue.customer}
-            date={issue.date}
-            employee={issue.fulfilling}
-          />
+        {issue.map((issue, issueId) => (
+          <New id={issue.id} name={issue.name} />
         ))}
         <div className="main__addTask">
           <input
@@ -46,11 +40,13 @@ export function Main(props) {
             className="main__addTask_description"
             placeholder="Описание"
           />
-          <input
-            type="text"
-            className="main__addTask_customer"
-            placeholder="Создатель"
-          />
+          <select>
+            <option value="asd"></option>
+            <option selected value={issue.name}>
+              das
+            </option>
+            <option value="asd">ssss</option>
+          </select>
           <input
             type="text"
             className="main__addTask_fulfilling"

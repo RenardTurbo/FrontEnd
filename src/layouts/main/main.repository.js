@@ -3,8 +3,8 @@ export class MainRepository {
     const response = await fetch("https://localhost:5001/api/issue");
     return await response.json();
   }
-  async getIssueById(id) {
-    const response = await fetch(`https://localhost:5001/api/issue/${id}`);
+  async getIssueById(key) {
+    const response = await fetch(`https://localhost:5001/api/issue/${key}`);
     return await response.json();
   }
 }
