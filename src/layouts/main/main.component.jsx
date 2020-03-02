@@ -15,6 +15,38 @@ export function Main(props) {
   }, []);
   console.log(issue);
 
+ function handleClickAddNew(){
+     let name =$(#name).value()
+     let description = $(#description).value()
+     let customer = $(#customer).value()
+     let fullfiling = $(#fullfiling).value()
+
+     return fetch({
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "name": name,
+            "description": description,
+            "customer": {
+                "id": id,
+                "fullname": customer,
+            },
+            "fullfiling": {
+                "id": id,
+                "fullname": fullfiling,
+            },
+        }),
+     })
+ }
+
+  const [user, setUser] = React.useState([]);
+  React.useEffect(() => {
+    mainRepository.getUser().then(setUser);
+  }, []);
+  console.log(user);
+
   return (
     <div className="main">
       <Header user={props.user} />
@@ -26,33 +58,29 @@ export function Main(props) {
             <div className="main__title_top">Задания </div>
           )}
         </div>
-        {issue.map((issue, issueId) => (
+        {issue.map(issue => (
           <New id={issue.id} name={issue.name} />
         ))}
         <div className="main__addTask">
           <input
+            id="name"
             type="text"
             className="main__addTask_name"
             placeholder="Название"
           />
           <input
             type="text"
+            id="description"
             className="main__addTask_description"
             placeholder="Описание"
           />
-          <select>
-            <option value="asd"></option>
-            <option selected value={issue.name}>
-              das
-            </option>
-            <option value="asd">ssss</option>
+          <select id="customer">
+            <option value={setUser}>{setUser}</option>
           </select>
-          <input
-            type="text"
-            className="main__addTask_fulfilling"
-            placeholder="Работник"
-          />
-          <button className="main__addTask_button">add</button>
+          <select id="fullfiling">
+            <option value=""></option>
+          </select>
+          <button onClick={handleClickAddNew} className="main__addTask_button">add</button>
         </div>
       </div>
     </div>

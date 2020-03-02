@@ -7,4 +7,8 @@ export class MainRepository {
     const response = await fetch(`https://localhost:5001/api/issue/${key}`);
     return await response.json();
   }
+  async getUser() {
+    const response = await fetch("https://localhost:5001/api/user");
+    return await response.json();
+  }
 }
