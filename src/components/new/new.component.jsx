@@ -4,7 +4,7 @@ import { MainRepository } from "../../layouts/main/main.repository";
 import "./new.style.sass";
 
 export function New(props) {
-  const { name, id, description, customer, fulfilling } = props;
+  const { name, id } = props;
   const [isId, setIsId] = useState(false);
   const mainRepository = new MainRepository();
   const [issueId, setIssueId] = React.useState([]);
@@ -16,10 +16,14 @@ export function New(props) {
   }
 
   function handleClickDeleteNew($id) {
-    return fetch({
-      url: "https://localhost:5001/api/delete",
-      method: "POST",
+    return fetch("https://localhost:5001/api/issue/" + id, {
+      method: "DELETE",
       mode: "cors",
+      cache: "default",
+      credentails: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         id: id
       })
