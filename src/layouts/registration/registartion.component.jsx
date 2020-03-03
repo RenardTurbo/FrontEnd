@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Header } from "../../components/header/header.component";
 import "./registration.style.sass";
 
 export function Registration() {
+  const [fullname, setFullname] = useState("");
+
+  function handleClickAddUser() {
+    fetch("https://localhost:5001/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fullname: fullname
+      })
+    });
+  }
+
   return (
     <div className="registration">
       <Header />
@@ -17,7 +31,12 @@ export function Registration() {
 
           <div className="auth-form__input-label">
             <label className="auth-form__label">ФИО</label>
-            <input className="auth-form__input" placeholder="Full name" />
+            <input
+              className="auth-form__input"
+              value={fullname}
+              placeholder="Full name"
+              onChange={e => setFullname(e.target.value)}
+            />
           </div>
 
           <div className="auth-form__input-label">
@@ -42,7 +61,9 @@ export function Registration() {
               placeholder="password"
             />
           </div>
-          <button className="auth-form__button">Зарегистрироваться</button>
+          <button className="auth-form__button" onClick={handleClickAddUser}>
+            Зарегистрироваться
+          </button>
           <div className="auth-form__registration">
             <div className="auth-form__text">Уже зарегистрированы?</div>
             <Link to="/login" className="auth-form__link">

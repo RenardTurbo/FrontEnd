@@ -16,7 +16,7 @@ export function New(props) {
   }
 
   function handleClickDeleteNew($id) {
-    return fetch("https://localhost:5001/api/issue/" + id, {
+    fetch("https://localhost:5001/api/issue/" + id, {
       method: "DELETE",
       mode: "cors",
       cache: "default",
