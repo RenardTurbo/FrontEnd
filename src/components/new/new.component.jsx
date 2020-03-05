@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { MainRepository } from "../../layouts/main/main.repository";
 import "./new.style.sass";
@@ -7,7 +8,7 @@ export function New(props) {
   const { name, id } = props;
   const [isId, setIsId] = useState(false);
   const mainRepository = new MainRepository();
-  const [issueId, setIssueId] = React.useState([]);
+  const [issueId, setIssueId] = useState([]);
 
   function handleClickGetId($id) {
     setIsId(!isId);
@@ -22,6 +23,7 @@ export function New(props) {
       cache: "default",
       credentails: "same-origin",
       headers: {
+        "XMLHttpRequest.withCredentials": "true",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -49,6 +51,7 @@ export function New(props) {
               Исполнитель:
               {issueId.fulfilling ? issueId.fulfilling.fullname : ""}
             </div>
+            <div className="new__status">Статус: {issueId.status}</div>
             <div className="new__button">
               <button onClick={handleClickDeleteNew}>Удалить</button>
               <button>Редактировать</button>

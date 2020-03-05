@@ -4,6 +4,7 @@ import { Main } from "../../layouts/main/main.component";
 import { Login } from "../../layouts/login/login.component";
 import { Registration } from "../../layouts/registration/registartion.component";
 import "./app.style.sass";
+import { Task } from "../../layouts/task/task.component";
 
 export function App() {
   const [user, setUser] = React.useState({
@@ -25,6 +26,9 @@ export function App() {
         </Route>
         <Route path="/" exact>
           <Main user={user} />
+        </Route>
+        <Route path="/task">
+          <Task />
         </Route>
       </Switch>
     </div>

@@ -6,15 +6,21 @@ import "./registration.style.sass";
 
 export function Registration() {
   const [fullname, setFullname] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleClickAddUser() {
-    fetch("https://localhost:5001/api/user", {
+    fetch("https://localhost:5001/api/registration", {
       method: "POST",
+      withCredentials: "true",
       headers: {
+        "XMLHttpRequest.withCredentials": "true",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        fullname: fullname
+        fullname: fullname,
+        username: login,
+        password: password
       })
     });
   }
@@ -41,15 +47,11 @@ export function Registration() {
 
           <div className="auth-form__input-label">
             <label className="auth-form__label">Login</label>
-            <input className="auth-form__input" placeholder="Login" />
-          </div>
-
-          <div className="auth-form__input-label">
-            <label className="auth-form__label">Email</label>
             <input
               className="auth-form__input"
-              type="email"
-              placeholder="Email"
+              placeholder="Login"
+              value={login}
+              onChange={e => setLogin(e.target.value)}
             />
           </div>
 
@@ -59,6 +61,8 @@ export function Registration() {
               className="auth-form__input"
               type="password"
               placeholder="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
           <button className="auth-form__button" onClick={handleClickAddUser}>

@@ -13,6 +13,7 @@ export function Main(props) {
   const [description, setDescription] = useState("");
   const [customer, setCustomer] = useState("");
   const [fulfilling, setFulfilling] = useState("");
+  const [status, setStatus] = useState("");
   const [issue, setIssue] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -30,6 +31,7 @@ export function Main(props) {
     fetch("https://localhost:5001/api/issue", {
       method: "POST",
       headers: {
+        "XMLHttpRequest.withCredentials": "true",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -40,7 +42,8 @@ export function Main(props) {
         },
         customer: {
           id: customer
-        }
+        },
+        status: status
       })
     });
   }
@@ -87,8 +90,14 @@ export function Main(props) {
               </option>
             ))}
           </select>
+          <select onChange={e => setStatus(e.target.value)}>
+            <option value="готов">готов</option>
+            <option value="исправлен">исправлен</option>
+            <option value="в обработке">в обработке</option>
+            <option value="открыт">открыт</option>
+          </select>
           <button onClick={handleClickAddNew} className="main__addTask_button">
-            add
+            add task
           </button>
         </div>
       </div>
