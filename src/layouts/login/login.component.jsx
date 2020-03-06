@@ -13,8 +13,9 @@ export function Login(props) {
   function onSubmitLogin() {
     fetch("https://localhost:5001/api/identity", {
       method: "POST",
+      withCredentials: "true",
+      credentials: "include",
       headers: {
-        "XMLHttpRequest.withCredentials": "true",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -22,7 +23,6 @@ export function Login(props) {
         password: password
       })
     });
-    return Request;
   }
 
   return (

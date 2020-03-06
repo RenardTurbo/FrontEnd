@@ -1,19 +1,30 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { MainRepository } from "../../layouts/main/main.repository";
 import "./new.style.sass";
 
 export function New(props) {
   const { name, id } = props;
-  const [isId, setIsId] = useState(false);
+  const [hideIssue, setHideIssue] = useState(false);
   const mainRepository = new MainRepository();
-  const [issueId, setIssueId] = useState([]);
+  const [issueById, setIssueById] = useState({});
+  const [description, setDescription] = useState(
+    "" ? issueById.description : "333"
+  );
+  const [customer, setCustomer] = useState("");
+  const [fulfilling, setFulfilling] = useState("");
+  const [status, setStatus] = useState("");
+  const [users, setUsers] = useState([]);
 
-  function handleClickGetId($id) {
-    setIsId(!isId);
-    mainRepository.getIssueById(id).then(setIssueId);
-    console.log(issueId);
+  function handleClickGetId() {
+    setHideIssue(!hideIssue);
+    mainRepository.getIssueById(id).then(res => {
+      setIssueById(res);
+      setDescription(res.description);
+    });
+    mainRepository.getUsers().then(setUsers);
+    console.log(users);
+    console.log(issueById);
   }
 
   function handleClickDeleteNew($id) {
@@ -23,11 +34,34 @@ export function New(props) {
       cache: "default",
       credentails: "same-origin",
       headers: {
-        "XMLHttpRequest.withCredentials": "true",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         id: id
+      })
+    });
+  }
+
+  function handleClickRedactNew($id) {
+    fetch("https://localhost:5001/api/issue/" + id, {
+      method: "PUT",
+      mode: "cors",
+      cache: "default",
+      credentails: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        description: description,
+        fulfilling: {
+          id: fulfilling
+        },
+        customer: {
+          id: customer
+        },
+        status: status
       })
     });
   }
@@ -40,21 +74,65 @@ export function New(props) {
         </div>
       </div>
 
-      {isId && (
+      {hideIssue && (
         <div>
-          <div className="new__description">{issueId.description}</div>
+          <div className="new__description">
+            Описание:
+            <input
+              onChange={e => setDescription(e.target.value)}
+              value={description}
+            />
+          </div>
           <div className="new__footer">
             <div className="new__author">
-              заказчик: {issueId.customer ? issueId.customer.fullname : ""}
+              заказчик:
+              <select onChange={e => setCustomer(e.target.value)}>
+                <option
+                  selected
+                  value={issueById.customer ? issueById.customer.fullname : ""}
+                >
+                  {issueById.customer ? issueById.customer.fullname : ""}
+                </option>
+                {users.map((u, i) => (
+                  <option value={u.id} key={i}>
+                    {u.fullname}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="new__fullfiling">
               Исполнитель:
-              {issueId.fulfilling ? issueId.fulfilling.fullname : ""}
+              <select onChange={e => setFulfilling(e.target.value)}>
+                <option
+                  selected
+                  value={
+                    issueById.fulfilling ? issueById.fulfilling.fullname : ""
+                  }
+                >
+                  {issueById.fulfilling ? issueById.fulfilling.fullname : ""}
+                </option>
+                {users.map((u, i) => (
+                  <option value={u.id} key={i}>
+                    {u.fullname}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="new__status">Статус: {issueId.status}</div>
+            <div className="new__status">
+              Статус:
+              <select onChange={e => setStatus(e.target.value)}>
+                <option selected value={issueById.status}>
+                  {issueById.status}
+                </option>
+                <option value="готов">готов</option>
+                <option value="исправлен">исправлен</option>
+                <option value="в обработке">в обработке</option>
+                <option value="открыт">открыт</option>
+              </select>
+            </div>
             <div className="new__button">
               <button onClick={handleClickDeleteNew}>Удалить</button>
-              <button>Редактировать</button>
+              <button onClick={handleClickRedactNew}>Редактировать</button>
             </div>
           </div>
         </div>

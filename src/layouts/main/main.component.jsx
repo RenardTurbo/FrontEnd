@@ -76,6 +76,7 @@ export function Main(props) {
             placeholder="Описание"
             onChange={e => setDescription(e.target.value)}
           />
+          Заказчик:
           <select onChange={e => setCustomer(e.target.value)}>
             {users.map((u, i) => (
               <option value={u.id} key={i}>
@@ -83,6 +84,7 @@ export function Main(props) {
               </option>
             ))}
           </select>
+          Исполнитель:
           <select onChange={e => setFulfilling(e.target.value)}>
             {users.map((u, i) => (
               <option value={u.id} key={i}>
@@ -90,6 +92,7 @@ export function Main(props) {
               </option>
             ))}
           </select>
+          Статус:
           <select onChange={e => setStatus(e.target.value)}>
             <option value="готов">готов</option>
             <option value="исправлен">исправлен</option>
